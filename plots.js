@@ -616,12 +616,6 @@ function processPercent(allRows) {
 }
 
 function makePieChart(age, maleNum, femaleNum) {
-    //var allLabels = age;
-
-    //var allValues = [
-    //  maleNum,
-    //   femaleNum
-    //];
 
     var ultimateColors = [
         ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)'],
