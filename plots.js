@@ -305,7 +305,6 @@ d3.csv(deathLoc, function (err, rows) {
 
     Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
 });
-//Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
 
 //UK Census
 //const ukCens = "data/UKcensus1851.csv";
@@ -326,7 +325,7 @@ d3.csv(UKcensus, function (err, r) {
         cellValue = unpack(r, headerNames[i]);
         cellValues[i] = cellValue;
     }
-
+    
 
     var data = [{
         type: 'table',
@@ -600,12 +599,12 @@ function processPercent(allRows) {
     for (let i = 0; i < male.length; i++) {
         maleNum[i] = parseInt(male[i], 10);
     }
-    console.log(maleNum);
+    //console.log(maleNum);
 
     for (let i = 0; i < female.length; i++) {
         femaleNum[i] = parseInt(female[i], 10);
     }
-    console.log(femaleNum);
+    //console.log(femaleNum);
 
     makePieChart(age, maleNum, femaleNum);
 }
@@ -613,7 +612,7 @@ function processPercent(allRows) {
 function makePieChart(age, maleNum, femaleNum) {
 
     var ultimateColors = [
-        ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)'],
+        ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(182, 227, 193)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)'],
         ['rgb(236, 212, 252)', 'rgb(221, 186, 245)', 'rgb(211, 169, 240)', 'rgb(193, 143, 227)', 'rgb(177, 130, 209)', 'rgb(163, 114, 196)', 'rgb(135, 90, 166)', 'rgb(95, 59, 120)', 'rgb(58, 34, 74)'],
     ];
 
