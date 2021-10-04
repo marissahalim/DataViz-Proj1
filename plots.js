@@ -310,27 +310,21 @@ d3.csv(deathLoc, function (err, rows) {
 //UK Census
 const ukCens = "/data/UKcensus1851.csv";
 
-//UK Census Table
-d3.csv(ukCens, function (err, rows) {
+//UK Census Table  r = rows
+d3.csv(ukCens, function (err, r) {
 
-    function unpack(rows, key) {
-        return rows.map(function (row) { return row[key]; });
+    function unpack(r, key) {
+        return r.map(function (row) { return row[key]; });
     }
 
-    var headerNames = d3.keys(rows[0]);
+    var headerNames = d3.keys(r[0]);
     var headerValues = [];
     var cellValues = [];
     for (i = 0; i < headerNames.length; i++) {
         headerValue = [headerNames[i]];
         headerValues[i] = headerValue;
-        cellValue = unpack(rows, headerNames[i]);
+        cellValue = unpack(r, headerNames[i]);
         cellValues[i] = cellValue;
-    }
-
-    // clean date
-    for (i = 0; i < cellValues[1].length; i++) {
-        var dateValue = cellValues[1][i].split(' ')[0]
-        cellValues[1][i] = dateValue
     }
 
 
