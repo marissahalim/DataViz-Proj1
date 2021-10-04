@@ -126,7 +126,7 @@ function makePlotly(x, y1, y2, cumalativeAttacks, cumalativeDeaths) {
             line: {
                 color: "rgb(242, 24, 29)",
                 width: 3,
-                // dash: "dash"
+                dash: "dash"
             }
         },
         {
@@ -136,7 +136,7 @@ function makePlotly(x, y1, y2, cumalativeAttacks, cumalativeDeaths) {
             line: {
                 color: "rgb(112, 8, 10)",
                 width: 3,
-                // dash: "dash"
+                dash: "dash"
             }
         }
     ];
@@ -265,7 +265,20 @@ d3.csv(deathLoc, function (err, rows) {
                 sizeref: 0.05
             },
             showlegend: true
-        }
+        },
+        {
+            name: 'Pumps',
+            type: "scattermapbox",
+            lon: [-0.136668, -0.139586, -0.139671, -0.13163, -0.133594, -0.135919, -0.133962, -0.138199],
+            lat: [51.513341, 51.513876, 51.514906, 51.512354, 51.512139, 51.511542, 51.510019, 51.511295],
+            marker: {
+                color: 'rgb(104, 237, 35)',
+                size: 10,
+                symbol: 'circle',
+                opacity: 1
+            },
+            showlegend: true
+        },
     ];
 
     var layout = {
@@ -304,7 +317,6 @@ d3.csv(ukCens, function (err, rows) {
     }
 
     var headerNames = d3.keys(rows[0]);
-
     var headerValues = [];
     var cellValues = [];
     for (i = 0; i < headerNames.length; i++) {
@@ -415,38 +427,6 @@ d3.csv(ukCens, function (err, rows) {
     Plotly.newPlot('ukCensusBar', data, layout);
 });
 
-
-//UK Census Pie Chart      ukCensusPie
-/*d3.csv(ukCens, function (err, rows) {
-    function unpack(rows, key) {
-        return rows.map(function (row) {
-            return row[key];
-        });
-    }
-/*
-    let allLabels = unpack(rows, "age");
-
-    let allValues = [
-        unpack(rows, "male"),
-        unpack(rows, "female")
-    ];
-*//*
-    let data = [{
-        values: unpack(rows, "male"),
-        labels: unpack(rows, "age"),
-        type: 'pie',
-        marker: {
-            colors: ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)']
-        },
-    }];
-    /*var ultimateColors = [
-        ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)'],
-        ['rgb(236, 212, 252)', 'rgb(221, 186, 245)', 'rgb(211, 169, 240)', 'rgb(193, 143, 227)', 'rgb(177, 130, 209)', 'rgb(163, 114, 196)', 'rgb(135, 90, 166)', 'rgb(95, 59, 120)', 'rgb(58, 34, 74)'],
-    ];*/
-
-    //Plotly.newPlot('ukCensusPie', data, layout);
-//});
-
 //overall UK census for male vs female pie chart
 let data = [{
     values: [8186432, 8552261],
@@ -459,7 +439,7 @@ let data = [{
 
 let layout = {
     title: {
-        text: 'Percentage of Overall Cholera Deaths in the UK (Based on Sex)',
+        text: 'Percentage of Overall Population in the UK divided by Sex',
         font: {
             family: 'Roboto, sans-serif',
             size: 24
@@ -596,29 +576,134 @@ d3.tsv(napDeaths, function (err, rows) {
     Plotly.newPlot('naplesDeathBar', data, layout);
 });
 
-
-
-function convertTSVUK(file) {
+// UK pie chart
+const UKcensus = "data/UKcensus1851noComma.csv";
+function plotPercent(file) {
     d3.csv(file, function (err, rows) {
         console.log(rows);
-        pushToArray(rows);
+        processPercent(rows);
     });
 }
 
-function pushToArray(allrows) {
+function processPercent(allRows) {
     let age = [];
-    let maleD = [];
-    let femaleD = [];
+    let maleNum = [];
+    let male = [];
+    let femaleNum = [];
+    let female = [];
     let row;
 
     let i = 0;
-    while (i < allrows.length) {
-        row = allrows[i];
-        age.push(row["Age Groups"]);
-        maleD.push(row["Male"]);
-        femaleD.push(row["Female"]);
+    while (i < allRows.length) {
+        row = allRows[i];
+        age.push(row["age"]);
+        male.push(row["male"]);
+        female.push(row["female"]);
         i += 1;
     }
+
+    for (let i = 0; i < male.length; i++) {
+        maleNum[i] = parseInt(male[i], 10);
+    }
+    console.log(maleNum);
+
+    for (let i = 0; i < female.length; i++) {
+        femaleNum[i] = parseInt(female[i], 10);
+    }
+    console.log(femaleNum);
+
+    makePieChart(age, maleNum, femaleNum);
 }
 
-convertTSVUK(ukCens);
+function makePieChart(age, maleNum, femaleNum) {
+    //var allLabels = age;
+
+    //var allValues = [
+    //  maleNum,
+    //   femaleNum
+    //];
+
+    var ultimateColors = [
+        ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)'],
+        ['rgb(236, 212, 252)', 'rgb(221, 186, 245)', 'rgb(211, 169, 240)', 'rgb(193, 143, 227)', 'rgb(177, 130, 209)', 'rgb(163, 114, 196)', 'rgb(135, 90, 166)', 'rgb(95, 59, 120)', 'rgb(58, 34, 74)'],
+    ];
+
+    var data = [{
+        values: maleNum,
+        labels: age,
+        type: 'pie',
+        name: 'Male Population',
+        marker: {
+            colors: ultimateColors[0]
+        },
+        domain: {
+            row: 0,
+            column: 0
+        },
+        hoverinfo: 'label+percent+name',
+        textinfo: 'percent'
+    }, {
+        values: femaleNum,
+        labels: age,
+        type: 'pie',
+        name: 'Female Population',
+        marker: {
+            colors: ultimateColors[1]
+        },
+        domain: {
+            row: 0,
+            column: 1
+        },
+        hoverinfo: 'label+percent+name',
+        textinfo: 'percent'
+    }];
+
+    var layout = {
+        title: {
+            text: 'Percentage of Population in the UK divided by Age Groups (Male vs Female)',
+            font: {
+                family: 'Roboto, sans-serif',
+                size: 24
+            },
+            xref: 'paper',
+            x: 0.55
+        },
+        legend: {
+            x: 0.46,
+            y: 0.5,
+            title: {
+                text: "Age Groups",
+                font: {
+                    family: 'Roboto, sans-serif',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }
+        },
+        margin: {
+            l: 80,
+            r: 80,
+            t: 100,
+            b: 80,
+            autoexpand: true
+        },
+        piecolorway: {
+            0: '#f0f0f0',
+            1: '#dedede',
+            2: '#c2c2c2',
+            3: '#a6a6a6',
+            4: '#9c9c9c',
+            5: '#8a8a8a',
+            6: '#6b6b6b',
+            7: '#525252',
+            8: '#2e2e2e'
+        },
+        grid: { rows: 1, columns: 2 },
+        height: 550
+    };
+
+    Plotly.newPlot('ukCensusPie', data, layout);
+
+}
+
+plotPercent(UKcensus);

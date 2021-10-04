@@ -3,6 +3,16 @@ h1 {
     text-align: center;
 }
 
+h3 {
+    font-family: Roboto, sans-serif;
+}
+
+#about {
+    font-family: Roboto, sans-serif;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
 .table.js-plotly-plot {
     margin: auto;
     height: 100%; 
