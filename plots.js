@@ -1,5 +1,5 @@
 //Deaths and attacks
-const CSV = "/data/choleraDeaths.tsv";
+const CSV = "data/choleraDeaths.tsv";
 
 //Cholera death and attack table
 d3.tsv(CSV, function (err, rows) {
@@ -8,7 +8,8 @@ d3.tsv(CSV, function (err, rows) {
         return rows.map(function (row) { return row[key]; });
     }
 
-    var headerNames = d3.keys(rows[0]);
+
+    let headerNames = d3.keys(rows[0]);
 
     var headerValues = [];
     var cellValues = [];
@@ -188,8 +189,8 @@ function makePlotly(x, y1, y2, cumalativeAttacks, cumalativeDeaths) {
 plotFromCSV(CSV);
 
 //Cholera Death and Pump Location
-const deathLoc = "/data/choleraDeathLocations.csv";
-const pumpLoc = "/data/choleraPumpLocations.csv";
+const deathLoc = "data/choleraDeathLocations.csv";
+const pumpLoc = "data/choleraPumpLocations.csv";
 
 //Cholera Death Location Table
 d3.csv(deathLoc, function (err, rows) {
