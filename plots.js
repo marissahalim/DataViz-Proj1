@@ -308,10 +308,10 @@ d3.csv(deathLoc, function (err, rows) {
 //Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
 
 //UK Census
-const ukCens = "data/UKcensus1851.csv";
-
+//const ukCens = "data/UKcensus1851.csv";
+const UKcensus = "data/UKcensus1851noComma.csv";
 //UK Census Table  r = rows
-d3.csv(ukCens, function (err, r) {
+d3.csv(UKcensus, function (err, r) {
 
     function unpack(r, key) {
         return r.map(function (row) { return row[key]; });
@@ -356,7 +356,7 @@ d3.csv(ukCens, function (err, r) {
 });
 
 //UK Census Bar Chart
-d3.csv(ukCens, function (err, rows) {
+d3.csv(UKcensus, function (err, rows) {
     function unpack(rows, key) {
         return rows.map(function (row) {
             return row[key];
@@ -497,7 +497,7 @@ d3.tsv(napDeaths, function (err, rows) {
     }]
 
     var layout = {
-        title: "Cholera Fatalities in Naples divided by Age Groups",
+        title: "Cholera Fatalities in Naples divided by Age Groups (in the 10,000s)",
         font: { family: "Roboto, sans-serif", size: 18, color: ["black"] }
     }
 
@@ -572,7 +572,7 @@ d3.tsv(napDeaths, function (err, rows) {
 });
 
 // UK pie chart
-const UKcensus = "data/UKcensus1851noComma.csv";
+//const UKcensus = "data/UKcensus1851noComma.csv";
 function plotPercent(file) {
     d3.csv(file, function (err, rows) {
         console.log(rows);
