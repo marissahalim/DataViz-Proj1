@@ -358,23 +358,23 @@ d3.csv(ukCens, function (err, rows) {
 
     let data = [
         {
-            name: 'Male Census',
+            name: 'Male Population',
             type: "bar",
             marker: {
                 color: 'rgb(169, 224, 182)'
             },
-            x: unpack(rows, "Age Groups"),
-            y: unpack(rows, "Male"),
+            x: unpack(rows, "age"),
+            y: unpack(rows, "male"),
             showlegend: true
         },
         {
-            name: 'Female Census',
+            name: 'Female Population',
             type: "bar",
             marker: {
                 color: 'rgb(211, 169, 240)'
             },
-            x: unpack(rows, "Age Groups"),
-            y: unpack(rows, "Female"),
+            x: unpack(rows, "age"),
+            y: unpack(rows, "female"),
             showlegend: true
         }
     ];
@@ -415,9 +415,64 @@ d3.csv(ukCens, function (err, rows) {
     Plotly.newPlot('ukCensusBar', data, layout);
 });
 
+
+//UK Census Pie Chart      ukCensusPie
+/*d3.csv(ukCens, function (err, rows) {
+    function unpack(rows, key) {
+        return rows.map(function (row) {
+            return row[key];
+        });
+    }
+/*
+    let allLabels = unpack(rows, "age");
+
+    let allValues = [
+        unpack(rows, "male"),
+        unpack(rows, "female")
+    ];
+*//*
+    let data = [{
+        values: unpack(rows, "male"),
+        labels: unpack(rows, "age"),
+        type: 'pie',
+        marker: {
+            colors: ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)']
+        },
+    }];
+    /*var ultimateColors = [
+        ['rgb(215, 247, 223)', 'rgb(199, 237, 209)', 'rgb(177, 222, 189)', 'rgb(169, 224, 182)', 'rgb(152, 212, 166)', 'rgb(126, 191, 141)', 'rgb(98, 163, 113)', 'rgb(69, 125, 82)', 'rgb(34, 66, 41)'],
+        ['rgb(236, 212, 252)', 'rgb(221, 186, 245)', 'rgb(211, 169, 240)', 'rgb(193, 143, 227)', 'rgb(177, 130, 209)', 'rgb(163, 114, 196)', 'rgb(135, 90, 166)', 'rgb(95, 59, 120)', 'rgb(58, 34, 74)'],
+    ];*/
+
+    //Plotly.newPlot('ukCensusPie', data, layout);
+//});
+
 //overall UK census for male vs female pie chart
+let data = [{
+    values: [8186432, 8552261],
+    labels: ['Overall Male Population', 'Overall Female Population'],
+    type: 'pie',
+    marker: {
+        colors: ['rgb(169, 224, 182)', 'rgb(211, 169, 240)']
+    },
+}];
 
+let layout = {
+    title: {
+        text: 'Percentage of Overall Cholera Deaths in the UK (Based on Sex)',
+        font: {
+            family: 'Roboto, sans-serif',
+            size: 24
+        }
+    },
+    legend: {
+        x: 0.73,
+        y: 0.5
+    },
+    height: 550
+};
 
+Plotly.newPlot('ukCensusOverallPie', data, layout);
 
 //Naples 
 const napDeaths = 'data/naplesCholeraAgeSexData.tsv';
@@ -543,7 +598,6 @@ d3.tsv(napDeaths, function (err, rows) {
 
 
 
-/*
 function convertTSVUK(file) {
     d3.csv(file, function (err, rows) {
         console.log(rows);
@@ -567,6 +621,4 @@ function pushToArray(allrows) {
     }
 }
 
-*/
-
-//convertTSVUK(ukCens);
+convertTSVUK(ukCens);
