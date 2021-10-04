@@ -1,7 +1,7 @@
-//for deaths and attacks
+//Deaths and attacks
 const CSV = "/data/choleraDeaths.tsv";
 
-//table
+//Cholera death and attack table
 d3.tsv(CSV, function (err, rows) {
 
     function unpack(rows, key) {
@@ -56,7 +56,7 @@ d3.tsv(CSV, function (err, rows) {
 //read in a csv/tsv file
 function plotFromCSV(file) {
     Plotly.d3.tsv(file, function (err, rows) {
-        console.log(rows);
+        //console.log(rows);
         processData(rows);
     });
 }
@@ -289,14 +289,14 @@ d3.csv(deathLoc, function (err, rows) {
         height: 600
     };
 
-        Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
-    });
-    //Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
+    Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
+});
+//Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
 
 //UK Census
 const ukCens = "/data/UKcensus1851.csv";
 
-//table
+//UK Census Table
 d3.csv(ukCens, function (err, rows) {
 
     function unpack(rows, key) {
@@ -341,10 +341,232 @@ d3.csv(ukCens, function (err, rows) {
     }]
 
     var layout = {
-        title: "The UK Census in 1851 based on Age Groups",
+        title: "The UK Census in 1851 divided by Age Groups",
         font: { family: "Roboto, sans-serif", size: 18, color: ["black"] }
     }
 
     Plotly.newPlot('ukCensusTable', data, layout);
 });
 
+//UK Census Bar Chart
+d3.csv(ukCens, function (err, rows) {
+    function unpack(rows, key) {
+        return rows.map(function (row) {
+            return row[key];
+        });
+    }
+
+    let data = [
+        {
+            name: 'Male Census',
+            type: "bar",
+            marker: {
+                color: 'rgb(169, 224, 182)'
+            },
+            x: unpack(rows, "Age Groups"),
+            y: unpack(rows, "Male"),
+            showlegend: true
+        },
+        {
+            name: 'Female Census',
+            type: "bar",
+            marker: {
+                color: 'rgb(211, 169, 240)'
+            },
+            x: unpack(rows, "Age Groups"),
+            y: unpack(rows, "Female"),
+            showlegend: true
+        }
+    ];
+
+    let layout = {
+        title: {
+            text: 'UK Census based on Age Groups (Male vs Female)',
+            font: {
+                family: 'Roboto, sans-serif',
+                size: 24
+            },
+            xref: 'paper',
+            x: 0.55
+        },
+        xaxis: {
+            title: {
+                text: 'Age Groups',
+                font: {
+                    family: 'Roboto, sans-serif',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }
+        },
+        yaxis: {
+            title: {
+                text: 'Population',
+                font: {
+                    family: 'Roboto, sans-serif',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }
+        },
+        height: 525
+    };
+
+    Plotly.newPlot('ukCensusBar', data, layout);
+});
+
+//overall UK census for male vs female pie chart
+
+
+
+//Naples 
+const napDeaths = 'data/naplesCholeraAgeSexData.tsv';
+
+//table
+d3.tsv(napDeaths, function (err, rows) {
+
+    function unpack(rows, key) {
+        return rows.map(function (row) { return row[key]; });
+    }
+
+    var headerNames = d3.keys(rows[0]);
+
+    var headerValues = [];
+    var cellValues = [];
+    for (i = 0; i < headerNames.length; i++) {
+        headerValue = [headerNames[i]];
+        headerValues[i] = headerValue;
+        cellValue = unpack(rows, headerNames[i]);
+        cellValues[i] = cellValue;
+    }
+
+    // clean date
+    for (i = 0; i < cellValues[1].length; i++) {
+        var dateValue = cellValues[1][i].split(' ')[0]
+        cellValues[1][i] = dateValue
+    }
+
+
+    var data = [{
+        type: 'table',
+        columnwidth: [500, 500, 500],
+        columnorder: [0, 1, 2],
+        header: {
+            values: headerValues,
+            align: "center",
+            line: { width: 1, color: 'rgb(50, 50, 50)' },
+            fill: { color: ['rgb(255, 255, 255)'] },
+            font: { family: "Roboto, sans-serif", size: 14, color: ["black"] }
+        },
+        cells: {
+            values: cellValues,
+            align: ["center", "right"],
+            line: { color: "black", width: 1 },
+            font: { family: "Roboto, sans-serif", size: 12, color: ["black"] }
+        }
+    }]
+
+    var layout = {
+        title: "Cholera Fatalities in Naples divided by Age Groups",
+        font: { family: "Roboto, sans-serif", size: 18, color: ["black"] }
+    }
+
+    Plotly.newPlot('naplesDeathTable', data, layout);
+});
+
+//Naples Bar Chart
+d3.tsv(napDeaths, function (err, rows) {
+    function unpack(rows, key) {
+        return rows.map(function (row) {
+            return row[key];
+        });
+    }
+
+    let data = [
+        {
+            name: 'Male Deaths',
+            type: "bar",
+            marker: {
+                color: 'rgb(97, 148, 110)'
+            },
+            x: unpack(rows, "Age Groups"),
+            y: unpack(rows, "Male"),
+            showlegend: true
+        },
+        {
+            name: 'Female Deaths',
+            type: "bar",
+            marker: {
+                color: 'rgb(144, 105, 171)'
+            },
+            x: unpack(rows, "Age Groups"),
+            y: unpack(rows, "Female"),
+            showlegend: true
+        }
+    ];
+
+    let layout = {
+        title: {
+            text: 'Cholera Fatalities in Naples based on Age Groups (Male vs Female)',
+            font: {
+                family: 'Roboto, sans-serif',
+                size: 24
+            },
+            xref: 'paper',
+            x: 0.55
+        },
+        xaxis: {
+            title: {
+                text: 'Age Groups',
+                font: {
+                    family: 'Roboto, sans-serif',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }
+        },
+        yaxis: {
+            title: {
+                text: 'Fatalities (in the 10,000s)',
+                font: {
+                    family: 'Roboto, sans-serif',
+                    size: 14,
+                    color: '#7f7f7f'
+                }
+            }
+        },
+        height: 525
+    };
+
+    Plotly.newPlot('naplesDeathBar', data, layout);
+});
+
+
+
+/*
+function convertTSVUK(file) {
+    d3.csv(file, function (err, rows) {
+        console.log(rows);
+        pushToArray(rows);
+    });
+}
+
+function pushToArray(allrows) {
+    let age = [];
+    let maleD = [];
+    let femaleD = [];
+    let row;
+
+    let i = 0;
+    while (i < allrows.length) {
+        row = allrows[i];
+        age.push(row["Age Groups"]);
+        maleD.push(row["Male"]);
+        femaleD.push(row["Female"]);
+        i += 1;
+    }
+}
+
+*/
+
+//convertTSVUK(ukCens);
