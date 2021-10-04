@@ -308,7 +308,7 @@ d3.csv(deathLoc, function (err, rows) {
 //Plotly.newPlot('deathAndPumpLocations', data, layout, { mapboxAccessToken: 'pk.eyJ1IjoiY2hyaWRkeXAiLCJhIjoiY2lxMnVvdm5iMDA4dnhsbTQ5aHJzcGs0MyJ9.X9o_rzNLNesDxdra4neC_A' });
 
 //UK Census
-const ukCens = "/data/UKcensus1851.csv";
+const ukCens = "data/UKcensus1851.csv";
 
 //UK Census Table  r = rows
 d3.csv(ukCens, function (err, r) {
